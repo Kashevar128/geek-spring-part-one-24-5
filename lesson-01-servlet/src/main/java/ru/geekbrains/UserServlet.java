@@ -35,6 +35,12 @@ public class UserServlet extends HttpServlet {
 
         for (User user : userRepository.findAll()) {
             // TODO добавить создание строк таблицы для каждого из пользователей (продуктов)
+            wr.println("<tr>");
+            String strId = "<td>" + user.getId() + "</td>";
+            String strName = "<td>" + user.getUsername() + "</td>";
+            wr.println(strId);
+            wr.println(strName);
+            wr.println("<tr>");
         }
 
         wr.println("</table>");
