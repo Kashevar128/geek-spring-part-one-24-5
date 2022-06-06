@@ -1,6 +1,4 @@
-<%@ page import="javax.swing.undo.UndoableEditSupport" %>
-<%@ page import="ru.geekbrains.persist.User" %>
-<%@ page import="java.util.List" %>
+<%@ page import="ru.geekbrains.HomeWork.products.Product" %>
 <!doctype html>
 <html lang="en">
 
@@ -38,35 +36,16 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
-            <a class="btn btn-primary" href="user_form.jsp">Add User</a>
-        </div>
-
-        <div class="col-12">
-            <table class="table table-bordered my-2">
-                <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <% for (User user: (List<User>)request.getAttribute("users")) { %>
-
-                <tr>
-                    <th scope="row"><%= user.getId()%></th>
-                    <td><%= user.getUsername()%></td>
-                    <td>
-                        <a class="btn btn-success" href="user_form.jsp"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>
-                    </td>
-                </tr>
-
-                <% } %>
-
-                </tbody>
-            </table>
+            <form action="#" method="post">
+                <input type="hidden" id="id" name="id">
+                <div class="form-group">
+                    <label>NameProduct</label>
+                    <% Product product = (Product) request.getAttribute("prd"); %>
+                    <input type="text" class="form-control" id="name" name="username" placeholder="Enter username"
+                           value="<%= "id: " + product.getId() + "; " + "name: " + product.getProductName()%>">
+                </div>
+                <button type="submit" class="btn btn-primary">Add product</button>
+            </form>
         </div>
     </div>
 </div>
@@ -82,5 +61,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+
 </body>
+
 </html>

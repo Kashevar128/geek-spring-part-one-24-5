@@ -54,7 +54,7 @@ public class UserServlet extends HttpServlet {
 //
 //            wr.println("</table>");
 //        } else {
-//            Matcher matcher = PARAM_PATTERN.matcher(req.getPathInfo());
+        //    Matcher matcher = PARAM_PATTERN.matcher(req.getPathInfo());
 //            if(matcher.matches()) {
 //                long id = Long.parseLong(matcher.group(1));
 //                User user = this.userRepository.findById(id);

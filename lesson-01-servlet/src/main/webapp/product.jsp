@@ -1,5 +1,4 @@
-<%@ page import="javax.swing.undo.UndoableEditSupport" %>
-<%@ page import="ru.geekbrains.persist.User" %>
+<%@ page import="ru.geekbrains.HomeWork.products.Product" %>
 <%@ page import="java.util.List" %>
 <!doctype html>
 <html lang="en">
@@ -38,7 +37,7 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
-            <a class="btn btn-primary" href="user_form.jsp">Add User</a>
+            <a class="btn btn-primary" href="../lesson-01-servlet/src/main/webapp/user_form.jsp/user_form.html">Add Product</a>
         </div>
 
         <div class="col-12">
@@ -46,19 +45,19 @@
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Username</th>
+                    <th scope="col">ProductName</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                <% for (User user: (List<User>)request.getAttribute("users")) { %>
+                <% for (Product product: (List<Product>)request.getAttribute("products")) { %>
 
                 <tr>
-                    <th scope="row"><%= user.getId()%></th>
-                    <td><%= user.getUsername()%></td>
+                    <th scope="row"><%= product.getId()%></th>
+                    <td><%= product.getProductName()%></td>
                     <td>
-                        <a class="btn btn-success" href="user_form.jsp"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-success" href="../lesson-01-servlet/src/main/webapp/user_form.jsp/user_form.html"><i class="fas fa-edit"></i></a>
                         <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>

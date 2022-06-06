@@ -12,10 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebServlet(urlPatterns = "/product/*")
 public class ProductServlet extends HttpServlet {
 
+    private static final Pattern PARAM_PATTERN = Pattern.compile("\\/(\\d+)");
     private ProductRepository productRepository;
 
     @Override
@@ -35,36 +38,50 @@ public class ProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().println("<p>pathInfo: " + req.getPathInfo() + "</p>");
+        //resp.getWriter().println("<p>pathInfo: " + req.getPathInfo() + "</p>");
 
-        PrintWriter wr = resp.getWriter();
-        wr.println("<table>");
-        wr.println("<tr>");
-        wr.println("<th>Id</th>");
-        wr.println("<th>ProductName</th>");
-        wr.println("</tr>");
-
-        String strIndex = req.getPathInfo().substring(1);
-        long index;
-        if(isNumber(strIndex)) {
-            index = Long.parseLong(strIndex);
+        if (req.getPathInfo() == null || req.getPathInfo().equals("/")) {
+            req.setAttribute("products", productRepository.findAll());
+            getServletContext().getRequestDispatcher("/product.jsp").forward(req, resp);
         } else {
-            wr.println("<p>Invalid number format, enter /number </p>");
-            return;
+            Matcher matcher = PARAM_PATTERN.matcher(req.getPathInfo());
+            if(matcher.matches()) {
+                long id = Long.parseLong(matcher.group(1));
+                Product product = this.productRepository.findById(id);
+                if (product == null) return;
+                req.setAttribute("prd", product);
+                getServletContext().getRequestDispatcher("/product_form.jsp").forward(req, resp);
+            } else return;
         }
 
-        try{
-            if(index == 0) {
-                for (Product product : productRepository.findAll()) printProduct(wr, product);
-            } else {
-                printProduct(wr, productRepository.findById(index));
-            }
-        }catch (Exception e) {
-            wr.println("<p>The index does not exist</p>");
-            return;
-        }
-
-        wr.println("</table>");
+//        PrintWriter wr = resp.getWriter();
+//        wr.println("<table>");
+//        wr.println("<tr>");
+//        wr.println("<th>Id</th>");
+//        wr.println("<th>ProductName</th>");
+//        wr.println("</tr>");
+//
+//        String strIndex = req.getPathInfo().substring(1);
+//        long index;
+//        if(isNumber(strIndex)) {
+//            index = Long.parseLong(strIndex);
+//        } else {
+//            wr.println("<p>Invalid number format, enter /number </p>");
+//            return;
+//        }
+//
+//        try{
+//            if(index == 0) {
+//                for (Product product : productRepository.findAll()) printProduct(wr, product);
+//            } else {
+//                printProduct(wr, productRepository.findById(index));
+//            }
+//        }catch (Exception e) {
+//            wr.println("<p>The index does not exist</p>");
+//            return;
+//        }
+//
+//        wr.println("</table>");
 
     }
 
